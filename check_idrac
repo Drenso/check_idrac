@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 __author__ = 'Nguyen Duc Trung Dung'
 __contact__ = 'ndtdung@spsvietnam.vn - dung.nguyendt@gmail.com'
 __blog__ = 'dybn.blogspot.com'
@@ -411,12 +411,12 @@ class PARSER:
         self.snmp_command = ''
 
     def get_snmp(self, oids):
-        cmd_v3 = '%s %s -O q -v %s -u %s -l %s -a %s -A %s -x %s -X %s %s -m %s' \
-                 % (self.snmp_command, self.host, conf['snmp_version'], conf['snmp_security_name'],
+        cmd_v3 = '%s -O q -v %s -u %s -l %s -a %s -A %s -x %s -X %s -m %s %s %s' \
+                 % (self.snmp_command, conf['snmp_version'], conf['snmp_security_name'],
                     conf['snmp_security_level'],
                     conf['snmp_authentication_protocol'], conf['snmp_authentication_password'],
                     conf['snmp_privacy_protocol'], conf['snmp_privacy_password'],
-                    oids, self.mib_file)
+                    self.mib_file, self.host, oids)
         cmd_v2 = '%s %s -O q -v %s -c %s %s -m %s' \
                  % (self.snmp_command, self.host, conf['snmp_version'],
                     conf['snmp_community'],
@@ -688,10 +688,10 @@ class PARSER:
             # If your idrac installed with more hw, write your own translator here
             # --TRANSLATOR--#
             if self.hardware[2] == 'PDisk' or self.hardware[2] == 'VDisk':
-                oids = self.hardware[3].replace('|', ' ').replace('\.', '.%d' % self.order)
+                oids = self.hardware[3].replace('|', ' ').replace('.', '.%d' % self.order)
                 snmp_data = self.get_snmp(oids)
             else:
-                oids = self.hardware[3].replace('|', ' ').replace('\.', '.1.%d' % self.order)
+                oids = self.hardware[3].replace('|', ' ').replace('.', '.1.%d' % self.order)
                 if self.hardware[2] == 'PS':
                     oids = ' '.join(oids.split()[:-1])
                     snmp_data = self.get_snmp(oids)
