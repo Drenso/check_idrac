@@ -11,6 +11,8 @@ AWS Cloud Ops at ADURO, INC
 - Simple, this check use snmpwalk command which included with net-snmp package you installed.
 - It run snmpwalk instance to send SNMP request to idrac and parsing result data into human readable form.
 
+On debian you will want to install the `snmp-mibs-downloader` package, for which `non-free non-free-firmware` needs to be enabled.
+
 ## Requires:
 - This check included with DELL IDRAC MIB file (required). You can copy MIB file to your default MIB folder, usually
 is /usr/share/snmp/mibs/. If you don't want to do this, keep it where you want and use option -m/--mib with absolute path to
