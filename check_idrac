@@ -766,7 +766,7 @@ class PARSER:
                     v = int(v)
                     hw[v] = hw[v].upper()
                 if self.perf is True and hw[3] and hw[3] != '(N/A)':
-                    perf_data = ' | %s=%s;;;%s;%s' \
+                    perf_data = ' | \'%s\'=%s;;;%s;%s' \
                                 % (hw[4].replace('"', ''), hw[3], conf['sensor_thresholds'][2],
                                    conf['sensor_thresholds'][3])
                     perf_data = perf_data.replace('none', '')
@@ -928,7 +928,7 @@ class PARSER:
                     hw_3 = hw[3]
                 else:
                     hw_3 = round(float(hw[3]) / 1024, 2)
-                output.append(tmp % (self.hardware[2], hw[0], hw[1].replace('"', ''), hw[5], hw[2],
+                output.append(tmp % (self.hardware[2], hw[0], hw[1].replace('"', '').replace(' �', ''), hw[5], hw[2],
                                      hw[4].replace('r', 'RAID-'), hw_3, hw[6], hw[7].replace('"', '')))
         return output, exit_code
 
