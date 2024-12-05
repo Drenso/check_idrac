@@ -3,7 +3,7 @@
 -- Title: iDRAC MIB
 --
 -- Version: 4.3
--- Date: 29 Jan 2021
+-- Date: 21 May 2024
 --
 -- Description: This MIB defines MIB objects that make iDRAC data available
 -- to SNMP management applications.
@@ -12820,13 +12820,516 @@ alertSDKSystemInformational NOTIFICATION-TYPE
     --#STATE      OPERATIONAL
     --#STATUS     current
     ::= { systemAlertTrapGroup 0 3083 }
-		
+	
+------------------------------------------------------------------------------
+-- iDRAC SDPM Traps
+--
+-- Category: System Health/1
+-- Subcategory: SDPM/155
+------------------------------------------------------------------------------
+alertSDPMSystemNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertSDPMSystemInformational, alertSDPMSystemWarning, alertSDPMSystemCritical}
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 79 }
+
+alertSDPMSystemInformational NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "The iDRAC generated a trap as iDRAC Software Defined Persistent Memory(SDPM) started working as expected."
+    --#TYPE       "iDRAC Extensibility SDPM event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3291 }
+
+alertSDPMSystemWarning NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION "The iDRAC generated a trap event due to a warning from Software Defined Persistent Memory(SDPM)."
+    --#TYPE       "iDRAC Extensibility SDPM event"
+    --#SEVERITY   MINOR
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Status Events"
+    --#STATE      DEGRADED
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3290 }
+
+alertSDPMSystemCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "A System Defined Persistent Memory(SDPM) error is detected on the device"
+    --#TYPE       "iDRAC Extensibility SDPM event"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3289 }
+	
+------------------------------------------------------------------------------
+-- iDRAC DCI Traps
+--
+-- Category: System Health/1
+-- Subcategory: DCI/155
+------------------------------------------------------------------------------
+alertDCISystemNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertDCISystemInformational }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 80 }
+
+alertDCISystemInformational NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "The iDRAC generated a trap as iDRAC DCI started working as expected."
+    --#TYPE       "iDRAC Extensibility SDPM event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3267 }
+
+------------------------------------------------------------------------------
+-- iDRAC DCI Traps
+--
+-- Category: System Health/1
+-- Subcategory: DCI/155
+------------------------------------------------------------------------------
+alertSystemThurmalShutdownNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertSystemThurmalShutdownCritical }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 81 }
+
+alertSystemThurmalShutdownCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "A Thermal state of the server is detected critical"
+    --#TYPE       "System: STS"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3721 }
+	
+------------------------------------------------------------------------------
+-- iDRAC HTR Traps
+--
+-- Category: System Health/1
+-- Subcategory: HTR/155
+------------------------------------------------------------------------------
+alertHTRSystemNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS {alertHTRSystemCritical}
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 89 }
+
+alertHTRSystemCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "Heater Manager(HTR) error is detected on the device"
+    --#TYPE       "iDRAC HTR event"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3273 }
+	
+------------------------------------------------------------------------------
+-- iDRAC LCPF Traps
+--
+-- Category: System Health/1
+-- Subcategory: LCPF/155
+------------------------------------------------------------------------------
+alertLCPFNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertLCPFCritical }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 87 }
+
+alertLCPFCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "LCPF of the server is detected critical"
+    --#TYPE       "System: LCPF"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3737 }
+	
 ------------------------------------------------------------------------------
 -- Storage Alert Trap Group
 -- Storage Traps
 -- Category: Storage/2
 --
 -- OID Format: 1.3.6.1.4.1.674.10892.5.3.2.2
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+--  Certificate Alert Trap
+--
+-- Category: Audit/4
+-- Subcategory: CERT/14
+------------------------------------------------------------------------------
+alertCertificateValidityNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertCertificateValidityWarning, alertCertificateValidityError }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 78 }
+	
+alertCertificateValidityWarning NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "Certificate Validity State Change Warning"
+    --#TYPE       "Audit: Configuration or state Change Information"
+    --#SEVERITY   MINOR
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Status Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+	::= { auditAlertTrapGroup 0 9442 }
+
+alertCertificateValidityError NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "Certificate Validity Failure or Critical event"
+    --#TYPE       "Audit: state Change Information"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { auditAlertTrapGroup 0 9441 }
+	
+------------------------------------------------------------------------------
+-- iDRAC BEZL Traps
+--
+-- Category: System Health/1
+-- Subcategory: BEZL/155
+------------------------------------------------------------------------------
+alertBEZLSystemNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertBEZLSystemInformational, alertBEZLSystemWarning, alertBEZLSystemCritical}
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 90 }
+
+alertBEZLSystemInformational NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "The iDRAC generated a trap as iDRAC BEZL started working as expected."
+    --#TYPE       "iDRAC BEZL event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3251 }
+
+alertBEZLSystemWarning NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION "The iDRAC generated a trap event due to a warning from BEZL."
+    --#TYPE       "iDRAC BEZL event"
+    --#SEVERITY   MINOR
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Status Events"
+    --#STATE      DEGRADED
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3250 }
+
+alertBEZLSystemCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "BEZL error is detected on the device"
+    --#TYPE       "iDRAC BEZL event"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3249 }
+	
+------------------------------------------------------------------------------
+-- iDRAC WNS Traps
+--
+-- Category: System Health/1
+-- Subcategory: WNS/155
+------------------------------------------------------------------------------
+alertWNSSystemNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertWNSSystemInformational, alertWNSSystemCritical}
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 91 }
+
+alertWNSSystemInformational NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "The iDRAC generated a trap as iDRAC WNS started working as expected."
+    --#TYPE       "iDRAC WNS event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { systemAlertTrapGroup 0 3243 }
+
+alertWNSSystemCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "WNS error is detected on the device"
+    --#TYPE       "iDRAC WNS event"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { systemAlertTrapGroup 0 3241 }
+
+------------------------------------------------------------------------------
+-- Configuration Alert Trap Group
+-- Configuration Traps
+-- Category: Configuration/5
+--
+-- OID Format: 1.3.6.1.4.1.674.10892.5.3.2.5
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -14029,6 +14532,49 @@ alertSoftwareChangeUpdateWarning NOTIFICATION-TYPE
     --#STATE      DEGRADED
     --#STATUS     current
     ::= { updatesAlertTrapGroup 0 6314 }
+	
+------------------------------------------------------------------------------
+-- HTR Change Traps
+--
+-- Category: Updates/3
+-- Subcategory: HTR/21
+------------------------------------------------------------------------------
+
+alertHTRUpdateNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertHTRUpdateWarning}
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 88 }
+
+alertHTRUpdateWarning NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION
+        "HTR update warning."
+    --#TYPE       "Updates: HTR Warning"
+    --#SEVERITY   MINOR
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Status Events"
+    --#STATE      DEGRADED
+    --#STATUS     current
+    ::= { updatesAlertTrapGroup 0 7370 }
 
 
 ------------------------------------------------------------------------------
@@ -14659,7 +15205,7 @@ alertUserTrackingWarning NOTIFICATION-TYPE
 -- Subcategory: RAC/60
 ------------------------------------------------------------------------------
 alertConfigurationChangeAuditNotificationGroup NOTIFICATION-GROUP
-    NOTIFICATIONS { alertRacConfigurationChangeInformation}
+    NOTIFICATIONS { alertRacConfigurationChangeInformation, alertRacConfigurationChangeWarning}
     STATUS        current
     DESCRIPTION
             "The two notifications which an SNMPv2 entity is required to
@@ -14681,7 +15227,7 @@ alertRacConfigurationChangeInformation NOTIFICATION-TYPE
     STATUS current
     DESCRIPTION
          "Configuration or state Change Information."
-    --#TYPE       "Audit: Configuration or state Change Information"
+    --#TYPE       "Audit: System Power State Change Information"
     --#SEVERITY   INFORMATIONAL
     --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
     --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
@@ -14690,19 +15236,11 @@ alertRacConfigurationChangeInformation NOTIFICATION-TYPE
     --#SUMMARY    "RAC FQDN: %s"
     --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
     --#CATEGORY   "Status Events"
-    --#STATE      DEGRADED
+    --#STATE      OPERATIONAL
     --#STATUS     current
     ::= { auditAlertTrapGroup 0 8675 }
 
-alertConfigurationChangeAuditNotificationGroup NOTIFICATION-GROUP
-    NOTIFICATIONS { alertRacConfigurationWarning}
-    STATUS        current
-    DESCRIPTION
-            "The two notifications which an SNMPv2 entity is required to
-            implement."
-    ::= { conformanceMIBnotificationGroup 73 }
-
-alertRacConfigurationWarning NOTIFICATION-TYPE
+alertRacConfigurationChangeWarning NOTIFICATION-TYPE
     OBJECTS { alertMessageID,
               alertMessage,
               alertCurrentStatus,
@@ -15462,6 +16000,116 @@ alertSDKConfigurationInformation NOTIFICATION-TYPE
     --#STATE      OPERATIONAL
     --#STATUS     current
     ::= { configurationAlertTrapGroup 0 11275 }
+
+------------------------------------------------------------------------------
+-- iDRAC HTR Traps
+--
+-- Category: Configuration/5
+-- Subcategory: HTR/129
+------------------------------------------------------------------------------
+alertHTRConfigurationNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertHTRConfigurationInformation, alertHTRConfigurationCritical }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 85 }
+
+alertHTRConfigurationInformation NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION "The iDRAC generated a trap event with heater manager change information."
+    --#TYPE       "iDRAC Extensibility HTR(heater manager) event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { configurationAlertTrapGroup 0 11467 }
+
+alertHTRConfigurationCritical NOTIFICATION-TYPE
+      OBJECTS { alertMessageID,
+                alertMessage,
+                alertCurrentStatus,
+                alertSystemServiceTag,
+                alertSystemFQDN,
+                alertFQDD,
+                alertDeviceDisplayName,
+                alertMessageArguments,
+                alertChassisServiceTag,
+                alertChassisName,
+                alertRacFQDN }
+    STATUS current
+    DESCRIPTION "A Heater manager state of the server is detected critical"
+    --#TYPE       "Configuration: HTR"
+    --#SEVERITY   CRITICAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      DEGRADED
+    --#STATUS     MANDATORY
+    ::= { configurationAlertTrapGroup 0 11465 }
+
+------------------------------------------------------------------------------
+-- iDRAC PR Traps
+--
+-- Category: Configuration/5
+-- Subcategory: PR/129
+------------------------------------------------------------------------------
+alertPRConfigurationNotificationGroup NOTIFICATION-GROUP
+    NOTIFICATIONS { alertPRConfigurationInformation }
+    STATUS        current
+    DESCRIPTION
+            "The two notifications which an SNMPv2 entity is required to
+            implement."
+    ::= { conformanceMIBnotificationGroup 86 }
+
+alertPRConfigurationInformation NOTIFICATION-TYPE
+    OBJECTS { alertMessageID,
+              alertMessage,
+              alertCurrentStatus,
+              alertSystemServiceTag,
+              alertSystemFQDN,
+              alertFQDD,
+              alertDeviceDisplayName,
+              alertMessageArguments,
+              alertChassisServiceTag,
+              alertChassisName,
+              alertRacFQDN }
+    STATUS current
+    DESCRIPTION "The iDRAC generated a trap event with heater manager change information."
+    --#TYPE       "iDRAC Extensibility PR(part replacement) event"
+    --#SEVERITY   INFORMATIONAL
+    --#SUMMARY    "Message ID: %s, Device Display Name: %s, Message: %s,"
+    --#SUMMARY    "Device Status: %d, Device FQDD: %s,"
+    --#SUMMARY    "System Service Tag: %s, System Name: %s,"
+    --#SUMMARY    "Chassis Service Tag: %s, Chassis Name: %s,"
+    --#SUMMARY    "RAC FQDN: %s"
+    --#ARGUMENTS  {0, 6, 1, 2, 5, 3, 4, 8, 9, 10}
+    --#CATEGORY   "Error Events"
+    --#STATE      OPERATIONAL
+    --#STATUS     current
+    ::= { configurationAlertTrapGroup 0 10299 }
+
 	
 END
 ------------------------------------------------------------------------------
